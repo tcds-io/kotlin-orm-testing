@@ -20,7 +20,7 @@ class MockkOrmMatchTesting {
 
         mock.findBy(condition)
 
-        verify { mock.findBy(matchQuery { "WHERE id = `address-xxx` AND number != `NA`" }) }
+        verify(exactly = 1) { mock.findBy(matchQuery { "WHERE id = `address-xxx` AND number != `NA`" }) }
     }
 
     @Test
@@ -35,6 +35,16 @@ class MockkOrmMatchTesting {
 
         mock.update(params, condition)
 
-        verify { mock.update(matchParams { listOf("main" to false, "number" to "890", "street" to "Foo Bar") }, any()) }
+        verify(exactly = 1) { mock.update(matchParams { listOf("main" to false, "number" to "890", "street" to "Foo Bar") }, any()) }
+    }
+
+    @Test
+    fun `given an order statement then make sure it is correct`() {
+        every { mock.findBy(any(), any()) } returns emptySequence()
+        val condition = where(table.id equalsTo "address-xxx") and (table.number differentOf "NA")
+
+        mock.findBy(condition, listOf(table.id.desc(), table.createdAt.asc()))
+
+        verify(exactly = 1) { mock.findBy(any(), matchOrderBy { "ORDER BY id DESC, created_at ASC" }) }
     }
 }

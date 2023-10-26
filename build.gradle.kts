@@ -9,7 +9,7 @@ plugins {
     `kotlin-dsl`
     `maven-publish`
     signing
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
 }
 
 repositories {
@@ -28,7 +28,7 @@ dependencies {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
-        languageVersion = "1.7"
+        languageVersion = "1.9"
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
