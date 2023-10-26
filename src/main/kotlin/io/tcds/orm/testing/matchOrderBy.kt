@@ -6,7 +6,7 @@ import io.tcds.orm.extension.toOrderByStatement
 import org.junit.jupiter.api.Assertions
 
 fun <T> MockKMatcherScope.matchOrderBy(expected: () -> String): OrderStatement<T> = matchNullable {
-    Assertions.assertEquals(expected(), it?.toOrderByStatement(), "matchQuery failed")
+    Assertions.assertEquals(expected(), it?.toOrderByStatement(), "matchOrderBy failed")
 
     true
 }
