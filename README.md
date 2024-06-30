@@ -2,6 +2,11 @@
 
 Mockk extension for testing [kotlin-orm](https://github.com/tcds-io/kotlin-orm)
 
+### installing
+```gradle
+testImplementation("io.tcds.orm:testing:0.1.0")
+```
+
 ### Match Query
 will match a raw query of a given where statement
 ```kotlin
