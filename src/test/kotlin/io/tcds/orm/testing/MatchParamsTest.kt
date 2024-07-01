@@ -4,9 +4,10 @@ import fixtures.AddressTable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import io.tcds.orm.Param
 import io.tcds.orm.extension.equalsTo
 import io.tcds.orm.extension.where
+import io.tcds.orm.param.BooleanParam
+import io.tcds.orm.param.StringParam
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -20,7 +21,11 @@ class MatchParamsTest {
     fun `given a where condition then match its params`() {
         every { mock.update(any(), any()) } returns mockk(relaxed = true)
         val condition = where(table.id equalsTo "address-xxx")
-        val params = listOf(Param(table.main, false), Param(table.number, "890"), Param(table.street, "Foo Bar"))
+        val params = listOf(
+            BooleanParam("main", false),
+            StringParam("number", "890"),
+            StringParam("street", "Foo Bar"),
+        )
 
         mock.update(params, condition)
 
@@ -31,7 +36,7 @@ class MatchParamsTest {
     fun `given a where condition when match is not correct then throw assert exception`() {
         every { mock.update(any(), any()) } returns mockk(relaxed = true)
         val condition = where(table.id equalsTo "address-xxx")
-        val params = listOf(Param(table.main, false))
+        val params = listOf(BooleanParam("main", false))
         mock.update(params, condition)
 
         val exception = assertThrows<AssertionFailedError> { verify { mock.update(matchParams { listOf("main" to true) }, any()) } }
