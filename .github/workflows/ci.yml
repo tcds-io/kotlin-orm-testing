@@ -74,5 +74,4 @@ jobs:
           OSS_USER: ${{ secrets.OSS_USER }}
           OSS_PASSWORD: ${{ secrets.OSS_PASSWORD }}
         run: |
-          ./gradlew generatePomFileForPluginMavenPublication
-          ./gradlew publishAllPublicationsToSonaTypeRepository
+          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
